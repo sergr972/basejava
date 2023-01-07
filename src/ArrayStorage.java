@@ -5,10 +5,10 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int size = 0;
+    int size;
 
     void clear() {
-        Arrays.fill(storage, size, storage.length, null);
+        Arrays.fill(storage, 0, size, null);
     }
 
     void save(Resume resume) {
@@ -31,6 +31,7 @@ public class ArrayStorage {
                 storage[i] = storage[size - 1];
                 storage[size - 1] = null;
                 size--;
+                break;
             }
         }
     }
