@@ -5,24 +5,15 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int size;
+    int size = 0;
 
     void clear() {
-        for (int i = 0; i < size; i++) {
-            if (storage[i] == null) {
-                size--;
-            }
-        }
+        Arrays.fill(storage, size, storage.length, null);
     }
 
     void save(Resume resume) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = resume;
-                size = i + 1;
-                return;
-            }
-        }
+        storage[size] = resume;
+        size++;
     }
 
     Resume get(String uuid) {
@@ -37,13 +28,9 @@ public class ArrayStorage {
     void delete(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].uuid)) {
-                storage[i] = null;
-            }
-        }
-        for (int j = 0; j < size; j++) {
-            if (storage[j] == null) {
-                storage[j] = storage[j + 1];
-                storage[j + 1] = null;
+                storage[i] = storage[size - 1];
+                storage[size - 1] = null;
+                size--;
             }
         }
     }
