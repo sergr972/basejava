@@ -28,8 +28,8 @@ public class MainTestArrayStorage {
         System.out.println("\nСохранить резюме r2");
         ARRAY_STORAGE.save(r2);
 
-        System.out.println("\nВернуть резюме r1");
-        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
+        System.out.println("\nВернуть резюме r2");
+        System.out.println("Get r2: " + ARRAY_STORAGE.get(r2.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
         System.out.println();
 
@@ -45,8 +45,8 @@ public class MainTestArrayStorage {
 
         System.out.println("\nУдалить резюме r4");
         ARRAY_STORAGE.delete(r4.getUuid());
-        System.out.println("\nУдалить резюме r1");
-        ARRAY_STORAGE.delete(r1.getUuid());
+        System.out.println("\nУдалить резюме r2");
+        ARRAY_STORAGE.delete(r2.getUuid());
 
         printAll();
         ARRAY_STORAGE.clear();
