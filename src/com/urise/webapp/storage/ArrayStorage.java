@@ -7,35 +7,36 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private int size;
+public class ArrayStorage implements Storage {
+
     private static final int STORAGE_LIMIT = 1000;
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
+    private int size = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
         if (index == -1) {
-            System.out.println("Резюме " + resume.getUuid() + " нет!");
+            System.out.println("Резюме " + r.getUuid() + " нет!");
         } else {
-            storage[index] = resume;
-            System.out.println("Резюме " + resume.getUuid() + " обновлено.");
+            storage[index] = r;
+            System.out.println("Резюме " + r.getUuid() + " обновлено.");
         }
     }
 
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (size >= STORAGE_LIMIT) {
+    public void save(Resume r) {
+        if (getIndex(r.getUuid()) != -1) {
+            System.out.println("Резюме " + r.getUuid() + " уже есть!!!");
+        } else if (size >= STORAGE_LIMIT) {
             System.out.println("База заполнена!!!");
-        } else if (index >= 0) {
-            System.out.println("Резюме " + resume.getUuid() + " уже есть!!!");
         } else {
-            storage[size] = resume;
+            storage[size] = r;
             size++;
-            System.out.println("Резюме " + resume.getUuid() + " добавлено!");
+            System.out.println("Резюме " + r.getUuid() + " добавлено!");
         }
     }
 
@@ -44,9 +45,8 @@ public class ArrayStorage {
         if (index == -1) {
             System.out.println("Резюме " + uuid + " нет!");
             return null;
-        } else {
-            return storage[index];
         }
+        return storage[index];
     }
 
     public void delete(String uuid) {
