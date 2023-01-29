@@ -2,22 +2,25 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
+import com.urise.webapp.storage.Storage;
 
 /**
  * Test for your ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume();
+        final Resume r1 = new Resume();
         r1.setUuid("uuid1");
-        Resume r2 = new Resume();
+        final Resume r2 = new Resume();
         r2.setUuid("uuid2");
-        Resume r3 = new Resume();
+        final Resume r3 = new Resume();
         r3.setUuid("uuid3");
-        Resume r4 = new Resume();
+        final Resume r4 = new Resume();
         r4.setUuid("uuid4");
+
+        System.out.println(r1 == r2);
 
         System.out.println("\nСохранить резюме r1");
         ARRAY_STORAGE.save(r1);
@@ -35,6 +38,8 @@ public class MainTestArrayStorage {
 
         System.out.println("\nВернуть резюме dummy");
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+
+//        System.out.println("Index of r3: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
 
         System.out.println("\nОбновить резюме r4");
         ARRAY_STORAGE.update(r4);
