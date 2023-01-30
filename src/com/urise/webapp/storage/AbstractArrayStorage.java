@@ -24,7 +24,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
-        if (index == -1) {
+        if (index < 0) {
             System.out.println("Резюме " + r.getUuid() + " нет!");
         } else {
             storage[index] = r;
@@ -33,22 +33,22 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
-        String uuid = r.getUuid();
-        if (getIndex(uuid) != -1) {
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
             System.out.println("Резюме " + r.getUuid() + " уже есть!!!");
-        } else if (size >= STORAGE_LIMIT) {
+        } else if (size == STORAGE_LIMIT) {
             System.out.println("База заполнена!!!");
         } else {
-            storage[size] = r;
+            insertCell(r, index);
             size++;
-            System.out.println("Резюме " + uuid + " добавлено!");
+            System.out.println("Резюме " + r + " добавлено!");
         }
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Resume " + uuid + " not exist");
+        if (index < 0) {
+            System.out.println("Резюме " + uuid + " нет");
             return null;
         }
         return storage[index];
@@ -56,10 +56,10 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.out.println("Резюме " + uuid + " нет!");
         } else {
-            storage[index] = storage[size - 1];
+            fillDelCell(index);
             storage[size - 1] = null;
             size--;
             System.out.println("Резюме " + uuid + " успешно удалено!");
@@ -71,5 +71,9 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
+
+    protected abstract void fillDelCell(int index);
+
+    protected abstract void insertCell(Resume r, int index);
 }
 

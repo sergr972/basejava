@@ -24,10 +24,10 @@ public class MainTestArrayStorage {
 
         System.out.println("\nСохранить резюме r1");
         ARRAY_STORAGE.save(r1);
-        System.out.println("\nСохранить резюме r2");
-        ARRAY_STORAGE.save(r2);
         System.out.println("\nСохранить резюме r3");
         ARRAY_STORAGE.save(r3);
+        System.out.println("\nСохранить резюме r2");
+        ARRAY_STORAGE.save(r2);
         System.out.println("\nСохранить резюме r2");
         ARRAY_STORAGE.save(r2);
 
@@ -38,8 +38,6 @@ public class MainTestArrayStorage {
 
         System.out.println("\nВернуть резюме dummy");
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
-
-//        System.out.println("Index of r3: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
 
         System.out.println("\nОбновить резюме r4");
         ARRAY_STORAGE.update(r4);
