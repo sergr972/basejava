@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void save(Resume r) {
+    public final void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index >= 0) {
             System.out.println("Резюме " + r.getUuid() + " уже есть!!!");
@@ -54,7 +54,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             System.out.println("Резюме " + uuid + " нет!");
