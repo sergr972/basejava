@@ -18,12 +18,12 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void fillDelCell(int index) {
+    protected void fillDeletedResume(int index) {
         storage[index] = storage[size - 1];
     }
 
     @Override
-    protected void insertCell(Resume r, int index) {
+    protected void insertResume(Resume r, int index) {
         storage[size] = r;
     }
 
