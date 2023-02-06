@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -25,44 +28,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Резюме " + r.getUuid() + " нет!");
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
-            System.out.println("Резюме " + r.getUuid() + " обновлено.");
-        }
-    }
-
-    public final void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            System.out.println("Резюме " + r.getUuid() + " уже есть!!!");
-        } else if (size == STORAGE_LIMIT) {
-            System.out.println("База заполнена!!!");
-        } else {
-            insertResume(r, index);
-            size++;
-            System.out.println("Резюме " + r + " добавлено!");
-        }
-    }
-
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Резюме " + uuid + " нет");
-            return null;
-        }
-        return storage[index];
-    }
-
-    public final void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Резюме " + uuid + " нет!");
-        } else {
-            fillDeletedResume(index);
-            storage[size - 1] = null;
-            size--;
-            System.out.println("Резюме " + uuid + " успешно удалено!");
         }
     }
 
@@ -70,10 +38,41 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    protected abstract int getIndex(String uuid);
+    public final void save(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            throw new ExistStorageException(r.getUuid());
+        } else if (size == STORAGE_LIMIT) {
+            throw new StorageException("База заполнена!!!", r.getUuid());
+        } else {
+            insertResume(r, index);
+            size++;
+        }
+    }
+
+    public final void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            fillDeletedResume(index);
+            storage[size - 1] = null;
+            size--;
+        }
+    }
+
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return storage[index];
+    }
 
     protected abstract void fillDeletedResume(int index);
 
     protected abstract void insertResume(Resume r, int index);
+
+    protected abstract int getIndex(String uuid);
 }
 
