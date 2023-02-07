@@ -17,8 +17,6 @@ public class MainTestSortedArrayStorage {
         r2.setUuid("uuid2");
         final Resume r3 = new Resume();
         r3.setUuid("uuid3");
-        final Resume r4 = new Resume();
-        r4.setUuid("uuid4");
 
         System.out.println(r1 == r2);
 
@@ -28,8 +26,6 @@ public class MainTestSortedArrayStorage {
         ARRAY_STORAGE.save(r2);
         System.out.println("\nСохранить резюме r1");
         ARRAY_STORAGE.save(r1);
-        System.out.println("\nСохранить резюме r2");
-        ARRAY_STORAGE.save(r2);
 
         System.out.println("\nВернуть резюме r2");
         System.out.println("Get r2: " + ARRAY_STORAGE.get(r2.getUuid()));
@@ -39,15 +35,11 @@ public class MainTestSortedArrayStorage {
         System.out.println("\nВернуть резюме dummy");
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
-        System.out.println("\nОбновить резюме r4");
-        ARRAY_STORAGE.update(r4);
         System.out.println("\nОбновить резюме r1");
         ARRAY_STORAGE.update(r1);
 
         printAll();
 
-        System.out.println("\nУдалить резюме r4");
-        ARRAY_STORAGE.delete(r4.getUuid());
         System.out.println("\nУдалить резюме r2");
         ARRAY_STORAGE.delete(r2.getUuid());
 

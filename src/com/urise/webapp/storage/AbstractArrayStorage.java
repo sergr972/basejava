@@ -34,6 +34,9 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
@@ -50,7 +53,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public final void delete(String uuid) {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
