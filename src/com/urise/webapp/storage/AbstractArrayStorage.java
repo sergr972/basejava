@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public final void save(Resume r) {
+    public void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index >= 0) {
             throw new ExistStorageException(r.getUuid());
