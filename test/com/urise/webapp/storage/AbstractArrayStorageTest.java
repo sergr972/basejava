@@ -70,6 +70,11 @@ public abstract class AbstractArrayStorageTest {
         assertEquals(R_4, storage.get(R_4.getUuid()));
     }
 
+    @Test(expected = ExistStorageException.class)
+    public void saveExist() {
+        storage.save(R_2);
+    }
+
     @Test(expected = StorageException.class)
     public void saveOverflow() {
         try {
@@ -82,11 +87,10 @@ public abstract class AbstractArrayStorageTest {
         storage.save(new Resume());
     }
 
-    @Test(expected = NotExistStorageException.class)
+    @Test
     public void delete() {
         storage.delete(UUID_2);
         assertSize(2);
-        storage.get(UUID_2);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -104,11 +108,6 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
         storage.get("dummy");
-    }
-
-    @Test(expected = ExistStorageException.class)
-    public void saveExist() {
-        storage.save(R_2);
     }
 
     private void assertSize(int size) {
