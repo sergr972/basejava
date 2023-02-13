@@ -60,10 +60,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] expected = new Resume[3];
-        Resume[] newArray = storage.getAll();
-        Assertions.assertEquals(expected.length, newArray.length);
-        assertSize(newArray.length);
+        Resume[] expected = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
+        Resume[] actual = storage.getAll();
+        Assertions.assertArrayEquals(expected, actual);
+        assertSize(actual.length);
     }
 
     @Test
