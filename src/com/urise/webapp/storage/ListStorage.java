@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -15,17 +17,28 @@ public class ListStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-
+        String uuid = r.getUuid();
+        int index = getIndex(uuid);
+        list.set(index, r);
     }
 
     @Override
     public void save(Resume r) {
-        list.add(r);
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            throw new ExistStorageException(r.getUuid());
+        } else {
+            list.add(r);
+        }
     }
 
     @Override
     public Resume get(String uuid) {
-        return list.get(getIndex(uuid));
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return list.get(index);
     }
 
     @Override
