@@ -1,14 +1,17 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage implements Storage {
+public class ListStorage extends AbstractStorage {
     private final List<Resume> list = new ArrayList<>();
+
+    @Override
+    public int size() {
+        return list.size();
+    }
 
     @Override
     public void clear() {
@@ -16,34 +19,28 @@ public class ListStorage implements Storage {
     }
 
     @Override
-    public void update(Resume r) {
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
-        list.set(index, r);
+    protected void doUpdate(Resume r, Object index) {
+        list.set((Integer) index, r);
     }
 
     @Override
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            list.add(r);
-        }
+    protected void doSave(Resume r, Object index) {
+        list.add(r);
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return list.get(index);
+    protected boolean isExist(Object index) {
+        return index != null;
     }
 
     @Override
-    public void delete(String uuid) {
-        list.remove(getIndex(uuid));
+    public Resume doGet(Object index) {
+        return list.get((Integer) index);
+    }
+
+    @Override
+    public void doDelete(Object index) {
+        list.remove(((Integer) index).intValue());
     }
 
     @Override
@@ -51,17 +48,12 @@ public class ListStorage implements Storage {
         return list.toArray(new Resume[0]);
     }
 
-    @Override
-    public int size() {
-        return list.size();
-    }
-
-    private int getIndex(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
-                return i;
+    protected Integer getIndex(String uuid) {
+        for (int index = 0; index < list.size(); index++) {
+            if (list.get(index).getUuid().equals(uuid)) {
+                return index;
             }
         }
-        return -1;
+        return null;
     }
 }
