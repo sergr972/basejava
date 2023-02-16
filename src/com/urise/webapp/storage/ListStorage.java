@@ -9,13 +9,18 @@ public class ListStorage extends AbstractStorage {
     private final List<Resume> list = new ArrayList<>();
 
     @Override
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
     public int size() {
         return list.size();
     }
 
     @Override
-    public void clear() {
-        list.clear();
+    public Resume[] getAll() {
+        return list.toArray(new Resume[0]);
     }
 
     @Override
@@ -29,31 +34,26 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return index != null;
-    }
-
-    @Override
-    public Resume doGet(Object index) {
+    protected Resume doGet(Object index) {
         return list.get((Integer) index);
     }
 
     @Override
-    public void doDelete(Object index) {
+    protected void doDelete(Object index) {
         list.remove(((Integer) index).intValue());
     }
 
-    @Override
-    public Resume[] getAll() {
-        return list.toArray(new Resume[0]);
-    }
-
     protected Integer getIndex(String uuid) {
-        for (int index = 0; index < list.size(); index++) {
-            if (list.get(index).getUuid().equals(uuid)) {
-                return index;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
             }
         }
         return null;
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return index != null;
     }
 }
