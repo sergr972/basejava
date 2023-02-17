@@ -6,7 +6,7 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Object getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
     protected abstract Resume doGet(Object index);
 
@@ -40,7 +40,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getExistedIndex(String uuid) {
-        Object index = getIndex(uuid);
+        Object index = getSearchKey(uuid);
         if (!isExist(index)) {
             throw new NotExistStorageException(uuid);
         }
@@ -48,7 +48,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getNotExistedIndex(String uuid) {
-        Object index = getIndex(uuid);
+        Object index = getSearchKey(uuid);
         if (isExist(index)) {
             throw new ExistStorageException(uuid);
         }
