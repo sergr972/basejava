@@ -14,44 +14,44 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void doSave(Resume r, Object index);
 
-    protected abstract void doDelete(Object index);
+    protected abstract void doDelete(Object searchKey);
 
     protected abstract boolean isExist(Object ob);
 
     public void update(Resume r) {
-        Object index = getExistedIndex(r.getUuid());
-        doUpdate(r, index);
+        Object searchKey = getExistedSearchKey(r.getUuid());
+        doUpdate(r, searchKey);
     }
 
     public Resume get(String uuid) {
-        Object index = getExistedIndex(uuid);
-        return doGet(index);
+        Object searchKey = getExistedSearchKey(uuid);
+        return doGet(searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        Object index = getExistedIndex(uuid);
-        doDelete(index);
+        Object searchKey = getExistedSearchKey(uuid);
+        doDelete(searchKey);
     }
 
     public void save(Resume r) {
-        Object index = getNotExistedIndex(r.getUuid());
-        doSave(r, index);
+        Object searchKey = getNotExistedSearchKey(r.getUuid());
+        doSave(r, searchKey);
     }
 
-    private Object getExistedIndex(String uuid) {
-        Object index = getSearchKey(uuid);
-        if (!isExist(index)) {
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
-    private Object getNotExistedIndex(String uuid) {
-        Object index = getSearchKey(uuid);
-        if (isExist(index)) {
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 }

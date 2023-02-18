@@ -8,42 +8,6 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private final List<Resume> list = new ArrayList<>();
 
-    @Override
-    public void clear() {
-        list.clear();
-    }
-
-    @Override
-    public int size() {
-        return list.size();
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return list.toArray(new Resume[0]);
-    }
-
-    @Override
-    protected void doUpdate(Resume r, Object index) {
-        list.set((Integer) index, r);
-    }
-
-    @Override
-    protected void doSave(Resume r, Object index) {
-        list.add(r);
-    }
-
-    @Override
-    protected Resume doGet(Object index) {
-        return list.get((Integer) index);
-    }
-
-    @Override
-    protected void doDelete(Object index) {
-        int i = (Integer) index;
-        list.remove(i);
-    }
-
     protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUuid().equals(uuid)) {
@@ -54,7 +18,43 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return index != null;
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        list.set((Integer) searchKey, r);
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        list.add(r);
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+//        int i = (Integer) searchKey;
+        list.remove(((Integer) searchKey).intValue());
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public Resume[] getAll() {
+        return list.toArray(new Resume[0]);
+    }
+
+    @Override
+    public int size() {
+        return list.size();
     }
 }
