@@ -25,10 +25,10 @@ public abstract class AbstractStorageTest {
     private static final String UUID_NOT_EXIST = "dummy";
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, "Name1");
+        RESUME_2 = new Resume(UUID_2, "Name2");
+        RESUME_3 = new Resume(UUID_3, "Name3");
+        RESUME_4 = new Resume(UUID_4, "Name4");
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -58,7 +58,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume upResume = new Resume(UUID_2);
+        Resume upResume = new Resume(UUID_2, "Name5");
         storage.update(upResume);
         Assertions.assertSame(upResume, storage.get(UUID_2));
     }
@@ -100,7 +100,7 @@ public abstract class AbstractStorageTest {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_NOT_EXIST));
     }
 
-@Test
+    @Test
     public void get() {
         assertGet(RESUME_1);
         assertGet(RESUME_2);

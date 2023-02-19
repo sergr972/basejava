@@ -5,6 +5,8 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class ArrayStorageTest extends AbstractStorageTest {
 
     public ArrayStorageTest() {
@@ -17,13 +19,12 @@ public class ArrayStorageTest extends AbstractStorageTest {
             try {
                 storage.clear();
                 for (int i = 0; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                    storage.save(new Resume());
+                    storage.save(new Resume(UUID.randomUUID().toString(), "name"));
                 }
             } catch (StorageException e) {
                 Assertions.fail("переполнение произошло раньше времени");
             }
-            storage.save(new Resume());
+            storage.save(new Resume(UUID.randomUUID().toString(), "name"));
         });
     }
-
 }
