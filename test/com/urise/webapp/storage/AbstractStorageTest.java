@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public abstract class AbstractStorageTest {
     protected final Storage storage;
 
@@ -50,8 +52,8 @@ public abstract class AbstractStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] newArr = storage.getAll();
-        Assertions.assertEquals(0, newArr.length);
+        List<Resume> list = storage.getAllSorted();
+        Assertions.assertEquals(0, list.size());
     }
 
     @Test
@@ -67,11 +69,11 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllSorted() {
         Resume[] expected = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
-        Resume[] actual = storage.getAll();
-        Assertions.assertArrayEquals(expected, actual);
-        assertSize(actual.length);
+        List<Resume> actual = storage.getAllSorted();
+        Assertions.assertArrayEquals(expected, actual.toArray());
+        assertSize(actual.size());
     }
 
     @Test
