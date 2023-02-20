@@ -22,3 +22,4 @@ log
 /lib/junit-platform-launcher-1.8.0.jar
 /lib/junit-platform-engine-1.8.0.jar
 /lib/junit-platform-commons-1.8.0.jar
+/target/
