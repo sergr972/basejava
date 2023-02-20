@@ -23,3 +23,10 @@ log
 /lib/junit-platform-engine-1.8.0.jar
 /lib/junit-platform-commons-1.8.0.jar
 /target/
+/lib/junit-platform-commons-1.9.1.jar
+/lib/junit-platform-engine-1.9.1.jar
+/lib/junit-platform-launcher-1.9.1.jar
+/lib/junit-platform-suite-1.9.1.jar
+/lib/junit-platform-suite-api-1.9.1.jar
+/lib/junit-platform-suite-commons-1.9.1.jar
+/lib/junit-platform-suite-engine-1.9.1.jar
