@@ -15,3 +15,10 @@ log
 /lib/junit-jupiter-api-5.8.1.jar
 /lib/junit-jupiter-5.8.1.jar
 /lib/apiguardian-api-1.1.2.jar
+/lib/junit-platform-suite-engine-1.8.0.jar
+/lib/junit-platform-suite-commons-1.8.0.jar
+/lib/junit-platform-suite-api-1.8.0.jar
+/lib/junit-platform-suite-1.8.0.jar
+/lib/junit-platform-launcher-1.8.0.jar
+/lib/junit-platform-engine-1.8.0.jar
+/lib/junit-platform-commons-1.8.0.jar
