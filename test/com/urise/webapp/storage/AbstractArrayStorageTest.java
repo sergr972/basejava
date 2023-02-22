@@ -16,7 +16,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         Assertions.assertThrows(StorageException.class, () -> {
             try {
                 storage.clear();
-                for (int i = 0; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
                     storage.save(new Resume("Name" + i));
                 }
             } catch (StorageException e) {
