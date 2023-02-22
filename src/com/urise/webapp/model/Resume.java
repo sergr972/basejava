@@ -24,6 +24,10 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,16 +45,11 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + '(' + fullName + ')';
     }
 
     @Override
     public int compareTo(Resume o) {
-        int compare = fullName.compareTo(o.fullName);
-        if (compare == 0) {
-            return uuid.compareTo(o.uuid);
-        } else {
-            return compare;
-        }
+        return uuid.compareTo(o.uuid);
     }
 }
