@@ -2,6 +2,6 @@ package com.urise.webapp.exception;
 
 public class ExistStorageException extends StorageException {
     public ExistStorageException(String uuid) {
-        super("Резюме " + uuid + " уже есть!!!", uuid);
+        super("Resume " + uuid + " already exist", uuid);
     }
 }
