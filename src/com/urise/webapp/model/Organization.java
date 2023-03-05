@@ -1,6 +1,7 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,24 +10,18 @@ public class Organization {
     private final String name;
     private final List<Period> periods;
 
-    public Organization(String webSite, String name, List<Period> periods) {
-        Objects.requireNonNull(webSite, "webSite must not be null");
-        Objects.requireNonNull(name, "name must not be null");
-        this.webSite = webSite;
-        this.name = name;
-        this.periods = periods;
+    public Organization(String name, String webSite, Period... periods) {
+        this(name, webSite, Arrays.asList(periods));
     }
 
-    public String getWebSite() {
-        return webSite;
+    public Organization(String name, String webSite, List<Period> periods) {
+        this.name = name;
+        this.webSite = webSite;
+        this.periods = periods;
     }
 
     public String getName() {
         return name;
-    }
-
-    public List<Period> getPeriod() {
-        return periods;
     }
 
     @Override
@@ -36,14 +31,14 @@ public class Organization {
 
         Organization that = (Organization) o;
 
-        if (!webSite.equals(that.webSite)) return false;
+        if (!Objects.equals(webSite, that.webSite)) return false;
         if (!name.equals(that.name)) return false;
         return periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
-        int result = webSite.hashCode();
+        int result = webSite != null ? webSite.hashCode() : 0;
         result = 31 * result + name.hashCode();
         result = 31 * result + periods.hashCode();
         return result;
@@ -52,13 +47,13 @@ public class Organization {
     @Override
     public String toString() {
         return "Organization{" +
-                "webSite='" + webSite + '\'' +
-                ", name='" + name + '\'' +
+                "name= ' " + name + '\'' +
+                ", webSite='" + webSite + '\'' +
                 ", periods=" + periods +
                 '}';
     }
 
-    static class Period {
+    public static class Period {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;

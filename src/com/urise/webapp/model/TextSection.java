@@ -5,13 +5,9 @@ import java.util.Objects;
 public class TextSection extends AbstractSection {
     private final String text;
 
-    protected TextSection(String text) {
+    public TextSection(String text) {
         Objects.requireNonNull(text, "text must not be null");
         this.text = text;
-    }
-
-    public String getText() {
-        return text;
     }
 
     @Override
