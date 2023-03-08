@@ -3,6 +3,7 @@ package com.urise.webapp;
 import com.urise.webapp.model.*;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -86,55 +87,55 @@ public class ResumeTestData {
         sections.put(SectionType.QUALIFICATIONS, new ListSection(qualifications));
 
         organizationList.add(new Organization("Java Online Projects", "http://javaops.ru/",
-                new Organization.Period(LocalDate.of(2013, 10, 1), LocalDate.now(),
+                new Organization.Period(2013, Month.OCTOBER,
                         "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.")));
         organizationList.add(new Organization("Wrike", "https://www.wrike.com/",
-                new Organization.Period(LocalDate.of(2014, 10, 1), LocalDate.of(2016, 1, 1),
+                new Organization.Period(2014, Month.OCTOBER,2016, Month.JANUARY,
                         "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
         organizationList.add(new Organization("RIT Center", null,
-                new Organization.Period(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 10, 1),
+                new Organization.Period(2012, Month.APRIL, 2014, Month.OCTOBER,
                         "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")));
         organizationList.add(new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/",
-                new Organization.Period(LocalDate.of(2010, 12, 1), LocalDate.of(2012, 4, 1),
+                new Organization.Period(2010, Month.DECEMBER, 2012, Month.APRIL,
                         "Ведущий программист", "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.")));
         organizationList.add(new Organization("Yota", "https://www.yota.ru/",
-                new Organization.Period(LocalDate.of(2008, 6, 1), LocalDate.of(2010, 12, 1),
+                new Organization.Period(2008, Month.JUNE, 2010, Month.DECEMBER,
                         "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)")));
         organizationList.add(new Organization("Enkata", "http://enkata.com/",
-                new Organization.Period(LocalDate.of(2007, 3, 1), LocalDate.of(2008, 6, 1),
+                new Organization.Period(2007, Month.MARCH, 2008, Month.JUNE,
                         "Разработчик ПО", "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).")));
         organizationList.add(new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html",
-                new Organization.Period(LocalDate.of(2005, 1, 1), LocalDate.of(2007, 2, 1),
+                new Organization.Period(2005, Month.JANUARY, 2007, Month.FEBRUARY,
                         "Разработчик ПО", "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).")));
         organizationList.add(new Organization("Alcatel", "http://www.alcatel.ru/",
-                new Organization.Period(LocalDate.of(1997, 9, 1), LocalDate.of(2005, 1, 1),
+                new Organization.Period(1997, Month.SEPTEMBER,2005, Month.JANUARY,
                         "Инженер по аппаратному и программному тестированию",
                         "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).")));
 
         sections.put(SectionType.EXPERIENCE, new OrganizationSection(educationList));
 
         educationList.add(new Organization("Coursera", "https://www.coursera.org/course/progfun",
-                new Organization.Period(LocalDate.of(2013, 3, 1), LocalDate.of(2013, 5, 1),
+                new Organization.Period(2013, Month.MARCH, 2013, Month.MAY,
                         "Студент", "\"Functional Programming Principles in Scala\" by Martin Odersky")));
         educationList.add(new Organization("Luxoft", "http://www.luxoft-training.ru",
-                new Organization.Period(LocalDate.of(2011, 3, 1), LocalDate.of(2011, 4, 1),
+                new Organization.Period(2011, Month.MARCH,2011, Month.APRIL,
                         "Студент", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
         educationList.add(new Organization("Siemens AG", "http://www.siemens.ru/",
-                new Organization.Period(LocalDate.of(2005, 1, 1), LocalDate.of(2005, 4, 1),
+                new Organization.Period(2005, Month.JANUARY, 2005, Month.APRIL,
                         "Студент", "3 месяца обучения мобильным IN сетям (Берлин)")));
         educationList.add(new Organization("Alcatel", "http://www.alcatel.ru/",
-                new Organization.Period(LocalDate.of(1997, 9, 1), LocalDate.of(1998, 3, 1),
+                new Organization.Period(1997, Month.SEPTEMBER, 1998, Month.MARCH,
                         "Студент", "6 месяцев обучения цифровым телефонным сетям (Москва)")));
         educationList.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/",
-                new Organization.Period(LocalDate.of(1993, 9, 1), LocalDate.of(1996, 7, 1),
+                new Organization.Period(1993, Month.SEPTEMBER, 1996, Month.JULY,
                         "Аспирант", "Аспирантура (программист С, С++)")));
         educationList.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/",
-                new Organization.Period(LocalDate.of(1987, 9, 1), LocalDate.of(1993, 7, 1),
+                new Organization.Period(1987, Month.SEPTEMBER, 1993, Month.JULY,
                         "Студент", "Инженер (программист Fortran, C)")));
         educationList.add(new Organization("Заочная физико-техническая школа при МФТИ", "https://mipt.ru/",
-                new Organization.Period(LocalDate.of(1984, 9, 1), LocalDate.of(1987, 6, 1),
+                new Organization.Period(1984, Month.SEPTEMBER, 1987, Month.JUNE,
                         "Студент", "Закончил с отличием")));
 
         sections.put(SectionType.EDUCATION, new OrganizationSection(educationList));

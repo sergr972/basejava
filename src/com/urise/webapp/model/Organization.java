@@ -1,9 +1,13 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static com.urise.webapp.Util.DateUtil.NOW;
+import static com.urise.webapp.Util.DateUtil.of;
 
 public class Organization {
     private final String webSite;
@@ -67,6 +71,14 @@ public class Organization {
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        public Period(int startYear, Month startMonth, String title, String description) {
+            this(of(startYear, startMonth), NOW, title, description);
+        }
+
+        public Period(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
         @Override
