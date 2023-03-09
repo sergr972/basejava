@@ -3,6 +3,7 @@ package com.urise.webapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) {
@@ -28,6 +29,28 @@ public class MainFile {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        list("D:\\JAVA\\basejava");
+    }
+
+    static void list(String filePath) {
+
+        File f = new File(filePath);
+
+        String[] sDirList = f.list();
+        int i;
+        for (i = 0; i < Objects.requireNonNull(sDirList).length; i++) {
+            File f1 = new File(filePath +
+                    File.separator + sDirList[i]);
+
+            if (f1.isFile())
+                System.out.println(filePath +
+                        File.separator + sDirList[i]);
+            else {
+                list(filePath +
+                        File.separator + sDirList[i]);
+            }
         }
     }
 }
