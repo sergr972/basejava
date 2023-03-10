@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
@@ -27,42 +28,42 @@ public abstract class AbstractStorageTest {
     private static final String UUID_NOT_EXIST = "dummy";
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Name1");
+        RESUME_1 = ResumeTestData.createResume(UUID_1, "Name1");
         RESUME_2 = new Resume(UUID_2, "Name2");
         RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
 
-        RESUME_1.addContact(ContactType.MOBILE_PHONE, "+7(921) 855-0482");
-        RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
-        RESUME_1.addContact(ContactType.MAIL, "gkislin@yandex.ru");
-        RESUME_1.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        RESUME_1.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        RESUME_1.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        RESUME_1.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
-
-        RESUME_1.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного " +
-                "обучения по Java Web и Enterprise технологиям"));
-        RESUME_1.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика," +
-                " креативность, инициативность. Пурист кода и архитектуры."));
-
-        RESUME_1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-
-        RESUME_1.addSection(SectionType.QUALIFICATIONS, new ListSection("JEE AS: GlassFish (v2.1, v3), " +
-                "OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2", "Version control: Subversion, Git, Mercury, ClearCase, Perforce"));
-
-        RESUME_1.addSection(SectionType.EXPERIENCE,
-                new OrganizationSection(
-                        new Organization("Organization1", "http://Organization1.ru",
-                                new Organization.Period(2005, Month.JANUARY, "position1", "content1"),
-                                new Organization.Period(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-
-        RESUME_1.addSection(SectionType.EDUCATION, new OrganizationSection(
-                new Organization("Coursera", "https://www.coursera.org/course/progfun",
-                        new Organization.Period(2013, Month.MARCH, 2013, Month.MAY,
-                                "Студент", "\"Functional Programming Principles in Scala\" by Martin Odersky")),
-                new Organization("Luxoft", "http://www.luxoft-training.ru",
-                        new Organization.Period(2011, Month.MARCH, 2011, Month.APRIL,
-                                "Студент", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""))));
+//        RESUME_1.addContact(ContactType.MOBILE_PHONE, "+7(921) 855-0482");
+//        RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
+//        RESUME_1.addContact(ContactType.MAIL, "gkislin@yandex.ru");
+//        RESUME_1.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+//        RESUME_1.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+//        RESUME_1.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+//        RESUME_1.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
+//
+//        RESUME_1.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного " +
+//                "обучения по Java Web и Enterprise технологиям"));
+//        RESUME_1.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика," +
+//                " креативность, инициативность. Пурист кода и архитектуры."));
+//
+//        RESUME_1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+//
+//        RESUME_1.addSection(SectionType.QUALIFICATIONS, new ListSection("JEE AS: GlassFish (v2.1, v3), " +
+//                "OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2", "Version control: Subversion, Git, Mercury, ClearCase, Perforce"));
+//
+//        RESUME_1.addSection(SectionType.EXPERIENCE,
+//                new OrganizationSection(
+//                        new Organization("Organization1", "http://Organization1.ru",
+//                                new Organization.Period(2005, Month.JANUARY, "position1", "content1"),
+//                                new Organization.Period(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
+//
+//        RESUME_1.addSection(SectionType.EDUCATION, new OrganizationSection(
+//                new Organization("Coursera", "https://www.coursera.org/course/progfun",
+//                        new Organization.Period(2013, Month.MARCH, 2013, Month.MAY,
+//                                "Студент", "\"Functional Programming Principles in Scala\" by Martin Odersky")),
+//                new Organization("Luxoft", "http://www.luxoft-training.ru",
+//                        new Organization.Period(2011, Month.MARCH, 2011, Month.APRIL,
+//                                "Студент", "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""))));
 
 
         RESUME_2.addContact(ContactType.SKYPE, "skype2");
