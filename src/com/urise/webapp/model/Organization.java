@@ -24,10 +24,6 @@ public class Organization {
         this.periods = periods;
     }
 
-    public String getName() {
-        return name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,22 +77,6 @@ public class Organization {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        public LocalDate getStartDate() {
-            return startDate;
-        }
-
-        public LocalDate getEndDate() {
-            return endDate;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -117,6 +97,16 @@ public class Organization {
             result = 31 * result + title.hashCode();
             result = 31 * result + (description != null ? description.hashCode() : 0);
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Period{" +
+                    "startDate=" + startDate +
+                    ", endDate=" + endDate +
+                    ", title='" + title + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
         }
     }
 }
