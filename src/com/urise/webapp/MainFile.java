@@ -36,20 +36,20 @@ public class MainFile {
 
     static void list(String filePath) {
 
-        File f = new File(filePath);
+        File file = new File(filePath);
 
-        String[] sDirList = f.list();
+        String[] fileList = file.list();
         int i;
-        for (i = 0; i < Objects.requireNonNull(sDirList).length; i++) {
+        for (i = 0; i < Objects.requireNonNull(fileList).length; i++) {
             File f1 = new File(filePath +
-                    File.separator + sDirList[i]);
+                    File.separator + fileList[i]);
 
             if (f1.isFile())
                 System.out.println(filePath +
-                        File.separator + sDirList[i]);
+                        File.separator + fileList[i]);
             else {
                 list(filePath +
-                        File.separator + sDirList[i]);
+                        File.separator + fileList[i]);
             }
         }
     }
