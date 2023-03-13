@@ -59,6 +59,14 @@ public class Organization {
         private final String title;
         private final String description;
 
+        public Period(int startYear, Month startMonth, String title, String description) {
+            this(of(startYear, startMonth), NOW, title, description);
+        }
+
+        public Period(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
+        }
+
         public Period(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
@@ -69,12 +77,20 @@ public class Organization {
             this.description = description;
         }
 
-        public Period(int startYear, Month startMonth, String title, String description) {
-            this(of(startYear, startMonth), NOW, title, description);
+        public LocalDate getStartDate() {
+            return startDate;
         }
 
-        public Period(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
-            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         @Override
@@ -92,21 +108,12 @@ public class Organization {
 
         @Override
         public int hashCode() {
-            int result = startDate.hashCode();
-            result = 31 * result + endDate.hashCode();
-            result = 31 * result + title.hashCode();
-            result = 31 * result + (description != null ? description.hashCode() : 0);
-            return result;
+            return Objects.hash(startDate, endDate, title, description);
         }
 
         @Override
         public String toString() {
-            return "Period{" +
-                    "startDate=" + startDate +
-                    ", endDate=" + endDate +
-                    ", title='" + title + '\'' +
-                    ", description='" + description + '\'' +
-                    '}';
+            return "Period(" + startDate + ',' + endDate + ',' + title + ',' + description + ')';
         }
     }
 }
