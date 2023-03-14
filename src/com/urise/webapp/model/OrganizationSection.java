@@ -7,20 +7,17 @@ import java.util.Objects;
 public class OrganizationSection extends AbstractSection {
     private final List<Organization> organizations;
 
+    public OrganizationSection(Organization... organization) {
+        this(Arrays.asList(organization));
+    }
+
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "organizations must not be null");
         this.organizations = organizations;
     }
 
-    public OrganizationSection(Organization... organization) {
-        this(Arrays.asList(organization));
-    }
-
-    @Override
-    public String toString() {
-        return "OrganizationSection{" +
-                "organizations=" + organizations +
-                '}';
+    public List<Organization> getOrganizations() {
+        return organizations;
     }
 
     @Override
@@ -36,5 +33,10 @@ public class OrganizationSection extends AbstractSection {
     @Override
     public int hashCode() {
         return organizations.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return organizations.toString();
     }
 }
