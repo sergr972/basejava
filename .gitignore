@@ -32,3 +32,4 @@ log
 /lib/junit-platform-suite-commons-1.9.2.jar
 /lib/junit-platform-suite-engine-1.9.2.jar
 /pom.xml
+/storage/
