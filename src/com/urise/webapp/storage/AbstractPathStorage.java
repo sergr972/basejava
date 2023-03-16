@@ -22,7 +22,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected AbstractPathStorage(String dir) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
-        if ((Files.isDirectory(directory) || !Files.isWritable(directory))) {
+        if ((!Files.isDirectory(directory) || !Files.isWritable(directory))) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
     }
