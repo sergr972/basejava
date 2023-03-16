@@ -1,8 +1,11 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ObjectStreamPathStorage extends AbstractPathStorage {
 
@@ -12,13 +15,19 @@ public class ObjectStreamPathStorage extends AbstractPathStorage {
 
     @Override
     protected void doWrite(Resume r, OutputStream os) throws IOException {
-
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream((Path) os))) {
+            oos.writeObject(r);
+        }
     }
 
     @Override
     protected Resume doRead(InputStream is) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            return (Resume) reader.read();
+        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream((Path) is))) {
+            try {
+                return (Resume) ois.readObject();
+            } catch (ClassNotFoundException e) {
+                throw new StorageException("Error read resume", null, e);
+            }
         }
     }
 }
