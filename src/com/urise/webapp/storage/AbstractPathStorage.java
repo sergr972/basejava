@@ -62,7 +62,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             Files.createFile(path);
         } catch (IOException e) {
             throw new StorageException("Couldn't create path " +
-                    path.toAbsolutePath(), path.getFileName().toString(), e);
+                    path.toAbsolutePath(), getFileName(path), e);
         }
         doUpdate(r, path);
     }
@@ -72,7 +72,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             return doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", path.getFileName().toString(), e);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path read error", path.getFileName().toString(), e);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
@@ -90,11 +90,15 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         return getList().map(this::doGet).collect(Collectors.toList());
     }
 
+    private static String getFileName(Path path) {
+        return path.getFileName().toString();
+    }
+
     private Stream<Path> getList() {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Reading directory error",null, e);
+            throw new StorageException("Reading directory error", null, e);
         }
     }
 }
