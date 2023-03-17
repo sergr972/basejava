@@ -16,20 +16,16 @@ public class ObjectStreamPathStorage extends AbstractPathStorage {
 
     @Override
     protected void doWrite(Resume r, OutputStream os) throws IOException {
-        Path storage = Paths.get(os.toString());
-        try (ObjectOutputStream out =
-                     new ObjectOutputStream(Files.newOutputStream(storage))) {
-            out.writeObject(r);
+        try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
+            oos.writeObject(r);
         }
     }
 
     @Override
     protected Resume doRead(InputStream is) throws IOException {
-        Path storage =  Paths.get(is.toString());
-        try (ObjectInputStream in =
-                     new ObjectInputStream(Files.newInputStream(storage))) {
+        try (ObjectInputStream ois = new ObjectInputStream(is)) {
             try {
-                return (Resume) in.readObject();
+                return (Resume) ois.readObject();
             } catch (ClassNotFoundException e) {
                 throw new StorageException("Error read resume", null, e);
             }
