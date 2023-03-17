@@ -6,6 +6,7 @@ import com.urise.webapp.model.Resume;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ObjectStreamPathStorage extends AbstractPathStorage {
 
@@ -15,8 +16,7 @@ public class ObjectStreamPathStorage extends AbstractPathStorage {
 
     @Override
     protected void doWrite(Resume r, OutputStream os) throws IOException {
-        final Path storage = new File(os.toString()).toPath();
-
+        Path storage = Paths.get(os.toString());
         try (ObjectOutputStream out =
                      new ObjectOutputStream(Files.newOutputStream(storage))) {
             out.writeObject(r);
@@ -25,7 +25,7 @@ public class ObjectStreamPathStorage extends AbstractPathStorage {
 
     @Override
     protected Resume doRead(InputStream is) throws IOException {
-        Path storage = new File(is.toString()).toPath();
+        Path storage =  Paths.get(is.toString());
         try (ObjectInputStream in =
                      new ObjectInputStream(Files.newInputStream(storage))) {
             try {
