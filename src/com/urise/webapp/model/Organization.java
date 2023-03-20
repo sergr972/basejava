@@ -57,10 +57,13 @@ public class Organization implements Serializable {
     }
 
     public static class Period implements Serializable {
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String description;
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private String title;
+        private String description;
+
+        public Period() {
+        }
 
         public Period(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);
