@@ -36,3 +36,9 @@ log
 /lib/jaxb-runtime-4.0.2.jar
 /lib/jaxb-api-2.3.1.jar
 /lib/apiguardian-api-1.0.0.jar
+/lib/txw2-4.0.2.jar
+/lib/jaxb-core-4.0.2.jar
+/lib/jakarta.xml.bind-api-4.0.0.jar
+/lib/jakarta.activation-api-2.1.1.jar
+/lib/istack-commons-runtime-4.1.1.jar
+/lib/angus-activation-2.0.0.jar
