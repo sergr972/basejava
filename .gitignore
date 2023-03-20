@@ -33,3 +33,6 @@ log
 /lib/junit-platform-suite-engine-1.9.2.jar
 /pom.xml
 /storage/
+/lib/jaxb-runtime-4.0.2.jar
+/lib/jaxb-api-2.3.1.jar
+/lib/apiguardian-api-1.0.0.jar
