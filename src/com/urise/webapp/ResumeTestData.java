@@ -2,6 +2,8 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.SectionType;
+import com.urise.webapp.model.TextSection;
 
 public class ResumeTestData {
 
@@ -15,8 +17,8 @@ public class ResumeTestData {
         resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         resume.addContact(ContactType.HOME_PAGE, "http://sivanov.ru/");
 
-//        resume.addSection(SectionType.OBJECTIVE, new TextSection("Objective"));
-//        resume.addSection(SectionType.PERSONAL, new TextSection("Personal Text"));
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("Objective"));
+        resume.addSection(SectionType.PERSONAL, new TextSection("Personal Text"));
 //        resume.addSection(SectionType.ACHIEVEMENT, new ListSection("achievements1",
 //                "achievements2", "achievements3"));
 //        resume.addSection(SectionType.QUALIFICATIONS, new ListSection("qualification1",
