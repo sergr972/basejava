@@ -37,6 +37,18 @@ public class Organization implements Serializable {
         this.periods = periods;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getWebSite() {
+        return webSite;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
