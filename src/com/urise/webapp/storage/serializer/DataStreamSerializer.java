@@ -5,8 +5,9 @@ import com.urise.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class DataStreamSerializer implements StreamSerializer {
 
@@ -16,47 +17,35 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
 
-            Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
-            Map<SectionType, Section> sectionMap = r.getSections();
-            dos.writeInt(sectionMap.size());
-            for (Map.Entry<SectionType, Section> entry : sectionMap.entrySet()) {
-                SectionType sectionType = SectionType.valueOf(entry.getKey().name());
+            writeWithException(r.getContacts().entrySet(), dos, contactTypeStringEntry -> {
+                dos.writeUTF(contactTypeStringEntry.getKey().name());
+                dos.writeUTF(contactTypeStringEntry.getValue());
+            });
+
+            writeWithException(r.getSections().entrySet(), dos, sectionTypeSectionEntry -> {
+                Section section = sectionTypeSectionEntry.getValue();
+                SectionType sectionType = SectionType.valueOf(sectionTypeSectionEntry.getKey().name());
                 dos.writeUTF(sectionType.name());
-                Section section = entry.getValue();
 
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> dos.writeUTF(((TextSection) section).getText());
 
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        List<String> items = ((ListSection) section).getItems();
-                        dos.writeInt(items.size());
-                        for (String item : items) {
-                            dos.writeUTF(item);
-                        }
-                    }
-                    case EXPERIENCE, EDUCATION -> {
-                        List<Organization> organizations = ((OrganizationSection) section).getOrganizations();
-                        dos.writeInt(organizations.size());
-                        for (Organization organization : organizations) {
-                            dos.writeUTF(organization.getName());
-                            dos.writeUTF(organization.getWebSite() == null? "null":organization.getWebSite());
-                            List<Organization.Period> periods = organization.getPeriods();
-                            dos.writeInt(periods.size());
-                            for (Organization.Period period : periods) {
-                                dos.writeUTF(period.getStartDate().toString());
-                                dos.writeUTF(period.getEndDate().toString());
-                                dos.writeUTF(period.getTitle());
-                                dos.writeUTF(period.getDescription()== null ? "null" : period.getDescription());
-                            }
-                        }
-                    }
+                    case ACHIEVEMENT, QUALIFICATIONS ->
+                            writeWithException(((ListSection) section).getItems(), dos, dos::writeUTF);
+
+                    case EXPERIENCE, EDUCATION ->
+                            writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
+                                dos.writeUTF(organization.getName());
+                                dos.writeUTF(organization.getWebSite());
+                                writeWithException(organization.getPeriods(), dos, period -> {
+                                    dos.writeUTF(period.getStartDate().toString());
+                                    dos.writeUTF(period.getEndDate().toString());
+                                    dos.writeUTF(period.getTitle());
+                                    dos.writeUTF(period.getDescription());
+                                });
+                            });
                 }
-            }
+            });
         }
     }
 
@@ -97,7 +86,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                         , dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
                                 ));
                             }
-                            organizations.add(new Organization(name, website.equals("null")?null: website, periods));
+                            organizations.add(new Organization(name, website.equals("null") ? null : website, periods));
                         }
                         resume.addSection(sectionType, new OrganizationSection(organizations));
                     }
@@ -105,5 +94,36 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             return resume;
         }
+    }
+
+    private <T> void writeWithException(Collection<T> collect, DataOutputStream dataOutputStream, ConsumerWrite<T> action) throws IOException {
+        Objects.requireNonNull(collect);
+        Objects.requireNonNull(dataOutputStream);
+        Objects.requireNonNull(action);
+        dataOutputStream.writeInt(collect.size());
+        for (T t : collect) {
+            action.write(t);
+        }
+    }
+
+    private <T> List<T> readWithException(DataInputStream dis, ConsumerRead<T> action) throws IOException {
+        Objects.requireNonNull(dis);
+        Objects.requireNonNull(action);
+        List<T> consumerList = new ArrayList<>();
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            consumerList.add(action.read());
+        }
+        return consumerList;
+    }
+
+    @FunctionalInterface
+    private interface ConsumerWrite<T> {
+        void write(T t) throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface ConsumerRead<T> {
+        T read() throws IOException;
     }
 }
