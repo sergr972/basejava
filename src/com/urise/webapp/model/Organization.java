@@ -53,20 +53,15 @@ public class Organization implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Organization that = (Organization) o;
-
-        if (!Objects.equals(webSite, that.webSite)) return false;
-        if (!name.equals(that.name)) return false;
-        return periods.equals(that.periods);
+        return Objects.equals(webSite, that.webSite)
+                && name.equals(that.name)
+                && periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
-        int result = webSite != null ? webSite.hashCode() : 0;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + periods.hashCode();
-        return result;
+        return Objects.hash(webSite, name, periods);
     }
 
     @Override
@@ -128,13 +123,11 @@ public class Organization implements Serializable {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-
             Period period = (Period) o;
-
-            if (!startDate.equals(period.startDate)) return false;
-            if (!endDate.equals(period.endDate)) return false;
-            if (!title.equals(period.title)) return false;
-            return Objects.equals(description, period.description);
+            return startDate.equals(period.startDate)
+                    && endDate.equals(period.endDate)
+                    && title.equals(period.title)
+                    && Objects.equals(description, period.description);
         }
 
         @Override

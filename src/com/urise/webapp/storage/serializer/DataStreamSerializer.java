@@ -44,14 +44,14 @@ public class DataStreamSerializer implements StreamSerializer {
                         dos.writeInt(organizations.size());
                         for (Organization organization : organizations) {
                             dos.writeUTF(organization.getName());
-                            dos.writeUTF(organization.getWebSite());
+                            dos.writeUTF(organization.getWebSite() == null? "null":organization.getWebSite());
                             List<Organization.Period> periods = organization.getPeriods();
                             dos.writeInt(periods.size());
                             for (Organization.Period period : periods) {
                                 dos.writeUTF(period.getStartDate().toString());
                                 dos.writeUTF(period.getEndDate().toString());
                                 dos.writeUTF(period.getTitle());
-                                dos.writeUTF(period.getDescription());
+                                dos.writeUTF(period.getDescription()== null ? "null" : period.getDescription());
                             }
                         }
                     }
@@ -91,11 +91,13 @@ public class DataStreamSerializer implements StreamSerializer {
                             List<Organization.Period> periods = new ArrayList<>();
                             int countPeriods = dis.readInt();
                             for (int k = 0; k < countPeriods; k++) {
+                                String str;
                                 periods.add(new Organization.Period(LocalDate.parse(dis.readUTF())
                                         , LocalDate.parse(dis.readUTF())
-                                        , dis.readUTF(), dis.readUTF()));
+                                        , dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
+                                ));
                             }
-                            organizations.add(new Organization(name, website, periods));
+                            organizations.add(new Organization(name, website.equals("null")?null: website, periods));
                         }
                         resume.addSection(sectionType, new OrganizationSection(organizations));
                     }
