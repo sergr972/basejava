@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public class DataStreamSerializer implements StreamSerializer {
 
+    String str;
+
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
@@ -29,19 +31,17 @@ public class DataStreamSerializer implements StreamSerializer {
 
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> dos.writeUTF(((TextSection) section).getText());
-
                     case ACHIEVEMENT, QUALIFICATIONS ->
                             writeWithException(((ListSection) section).getItems(), dos, dos::writeUTF);
-
                     case EXPERIENCE, EDUCATION ->
                             writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
                                 dos.writeUTF(organization.getName());
-                                dos.writeUTF(organization.getWebSite());
+                                dos.writeUTF((str = organization.getWebSite()) == null ? "null" : str);
                                 writeWithException(organization.getPeriods(), dos, period -> {
                                     dos.writeUTF(period.getStartDate().toString());
                                     dos.writeUTF(period.getEndDate().toString());
                                     dos.writeUTF(period.getTitle());
-                                    dos.writeUTF(period.getDescription());
+                                    dos.writeUTF((str = period.getDescription()) == null ? "null" : str);
                                 });
                             });
                 }
@@ -63,44 +63,30 @@ public class DataStreamSerializer implements StreamSerializer {
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL ->
                             resume.addSection(sectionType, new TextSection(dis.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        int countItem = dis.readInt();
-                        List<String> items = new ArrayList<>(countItem);
-                        for (int j = 0; j < countItem; j++) {
-                            items.add(dis.readUTF());
-                        }
-                        resume.addSection(sectionType, new ListSection(items));
-                    }
-                    case EDUCATION, EXPERIENCE -> {
-                        int countOrganization = dis.readInt();
-                        List<Organization> organizations = new ArrayList<>(countOrganization);
-                        for (int j = 0; j < countOrganization; j++) {
-                            String name = dis.readUTF();
-                            String website = dis.readUTF();
-                            List<Organization.Period> periods = new ArrayList<>();
-                            int countPeriods = dis.readInt();
-                            for (int k = 0; k < countPeriods; k++) {
-                                String str;
-                                periods.add(new Organization.Period(LocalDate.parse(dis.readUTF())
-                                        , LocalDate.parse(dis.readUTF())
-                                        , dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
-                                ));
-                            }
-                            organizations.add(new Organization(name, website.equals("null") ? null : website, periods));
-                        }
-                        resume.addSection(sectionType, new OrganizationSection(organizations));
-                    }
+                    case ACHIEVEMENT, QUALIFICATIONS ->
+                            resume.addSection(sectionType, new ListSection(readWithException(dis, dis::readUTF)));
+                    case EDUCATION, EXPERIENCE ->
+                            resume.addSection(sectionType, new OrganizationSection(
+                                    readWithException(dis, () -> new Organization(
+                                            dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
+                                            , readWithException(dis, () -> new Organization.Period(
+                                                    getParse(dis), getParse(dis), dis.readUTF()
+                                            , (str = dis.readUTF()).equals("null") ? null : str))))));
                 }
             }
             return resume;
         }
     }
 
-    private <T> void writeWithException(Collection<T> collect, DataOutputStream dataOutputStream, ConsumerWrite<T> action) throws IOException {
+    private LocalDate getParse(DataInputStream dis) throws IOException {
+        return LocalDate.parse(dis.readUTF());
+    }
+
+    private <T> void writeWithException(Collection<T> collect, DataOutputStream dos, ConsumerWrite<T> action) throws IOException {
         Objects.requireNonNull(collect);
-        Objects.requireNonNull(dataOutputStream);
+        Objects.requireNonNull(dos);
         Objects.requireNonNull(action);
-        dataOutputStream.writeInt(collect.size());
+        dos.writeInt(collect.size());
         for (T t : collect) {
             action.write(t);
         }
