@@ -53,27 +53,24 @@ public class DataStreamSerializer implements StreamSerializer {
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
             Resume resume = new Resume(dis.readUTF(), dis.readUTF());
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+
+            readWithException(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL ->
                             resume.addSection(sectionType, new TextSection(dis.readUTF()));
                     case ACHIEVEMENT, QUALIFICATIONS ->
-                            resume.addSection(sectionType, new ListSection(readWithException(dis, dis::readUTF)));
+                            resume.addSection(sectionType, new ListSection(readListWithException(dis, dis::readUTF)));
                     case EDUCATION, EXPERIENCE ->
                             resume.addSection(sectionType, new OrganizationSection(
-                                    readWithException(dis, () -> new Organization(
+                                    readListWithException(dis, () -> new Organization(
                                             dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
-                                            , readWithException(dis, () -> new Organization.Period(
-                                                    getParse(dis), getParse(dis), dis.readUTF()
+                                            , readListWithException(dis, () -> new Organization.Period(
+                                            getParse(dis), getParse(dis), dis.readUTF()
                                             , (str = dis.readUTF()).equals("null") ? null : str))))));
                 }
-            }
+            });
             return resume;
         }
     }
@@ -92,15 +89,24 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private <T> List<T> readWithException(DataInputStream dis, ConsumerRead<T> action) throws IOException {
+    private <T> List<T> readListWithException(DataInputStream dis, ConsumerRead<T> action) throws IOException {
         Objects.requireNonNull(dis);
         Objects.requireNonNull(action);
-        List<T> consumerList = new ArrayList<>();
+        List<T> addList = new ArrayList<>();
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
-            consumerList.add(action.read());
+            addList.add(action.read());
         }
-        return consumerList;
+        return addList;
+    }
+
+    private void readWithException(DataInputStream dis, ConsumerAdd action) throws IOException {
+        Objects.requireNonNull(dis);
+        Objects.requireNonNull(action);
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            action.add();
+        }
     }
 
     @FunctionalInterface
@@ -111,5 +117,10 @@ public class DataStreamSerializer implements StreamSerializer {
     @FunctionalInterface
     private interface ConsumerRead<T> {
         T read() throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface ConsumerAdd {
+        void add() throws IOException;
     }
 }
