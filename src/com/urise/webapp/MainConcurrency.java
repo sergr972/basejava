@@ -21,6 +21,7 @@ public class MainConcurrency {
         thread0.start();
 
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 System.out.println(
@@ -29,7 +30,7 @@ public class MainConcurrency {
 
             private void inc() {
                 synchronized (this) {
-                    counter++;
+//                    counter++;
                 }
             }
         }).start();
