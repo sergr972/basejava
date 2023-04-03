@@ -7,6 +7,8 @@ public class MainConcurrency {
     public static final int THREADS_NUMBER = 10000;
     private static int counter;
     private static final Object LOCK = new Object();
+    private static final Object LOCK1 = new Object();
+    private static final Object LOCK2 = new Object();
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println(Thread.currentThread().getName());
@@ -58,6 +60,9 @@ public class MainConcurrency {
             }
         });
         System.out.println(counter);
+
+        deadLock(LOCK1, LOCK2);
+        deadLock(LOCK2, LOCK1);
     }
 
     private synchronized void inc() {
@@ -68,5 +73,23 @@ public class MainConcurrency {
 //                readFile
 //                ...
 //            }
+    }
+
+    private static synchronized void deadLock(Object lock1, Object lock2) {
+        new Thread(() -> {
+            synchronized (lock1) {
+                System.out.println(Thread.currentThread().getName() +
+                        ", " + Thread.currentThread().getState() );
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                synchronized (lock2) {
+                    System.out.println(Thread.currentThread().getName() +
+                            ", " + Thread.currentThread().getState());
+                }
+            }
+        }).start();
     }
 }
