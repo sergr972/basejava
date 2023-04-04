@@ -1,6 +1,8 @@
 package com.urise.webapp;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,12 +21,13 @@ public class MainConcurrency {
     private static final Lock WRITE_LOCK = reentrantReadWriteLock.writeLock();
     private static final Lock READ_LOCK = reentrantReadWriteLock.readLock();
 
-    private static final ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>(){
-        @Override
-        protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat();
-        }
-    };
+//    private static final ThreadLocal<SimpleDateFormat> threadLocal = ThreadLocal.withInitial(() ->
+//            new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"));
+    private static final ThreadLocal<DateTimeFormatter> formatter = ThreadLocal.withInitial(() ->
+            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+
+//    private static final LocalDateTime dateTime = LocalDateTime.now();
+//    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println(Thread.currentThread().getName());
@@ -69,7 +72,8 @@ public class MainConcurrency {
             {
                 for (int j = 0; j < 100; j++) {
                     mainConcurrency.inc();
-                    System.out.println(threadLocal.get().format(new Date()));
+//                    System.out.println(threadLocal.get().format(new Date()));
+                    System.out.println(formatter.get().format(LocalDateTime.now()));
                 }
                 latch.countDown();
                 return 5;
