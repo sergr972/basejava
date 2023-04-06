@@ -9,10 +9,13 @@ public class MainStream {
     public static void main(String[] args) {
         int[] array1 = {1, 2, 3, 3, 2, 3};
         int[] array2 = {9, 8};
+        ArrayList<Integer> list1 = new ArrayList<>(Arrays.asList(1, 2, 3, 3, 2, 3));
+        ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(1, 2, 3, 5, 3, 2, 3, 4));
 
         System.out.println(minValue(array1));
         System.out.println(minValue(array2));
-        System.out.println(oddOrEven(new ArrayList<>(Arrays.asList(1, 2, 3, 3, 2, 3))));
+        System.out.println(oddOrEven(list1));
+        System.out.println(oddOrEven(list2));
     }
 
     private static int minValue(int[] values) {
@@ -23,10 +26,8 @@ public class MainStream {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-
         return integers.stream().filter(n -> n % 2 != integers.stream()
-                        .mapToInt(Integer::intValue)
-                        .sum() % 2)
+                .mapToInt(Integer::intValue).sum() % 2)
                 .collect(Collectors.toList());
     }
 }
