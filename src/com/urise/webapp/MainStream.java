@@ -3,7 +3,10 @@ package com.urise.webapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.toList;
 
 public class MainStream {
     public static void main(String[] args) {
@@ -26,8 +29,13 @@ public class MainStream {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        return integers.stream().filter(n -> n % 2 != integers.stream()
-                .mapToInt(Integer::intValue).sum() % 2)
-                .collect(Collectors.toList());
+//        return integers.stream().filter(n -> n % 2 != integers.stream()
+//                .mapToInt(Integer::intValue).sum() % 2)
+//                .collect(Collectors.toList());
+
+        Map<Boolean, List<Integer>> map = integers.stream()
+                .collect(partitioningBy(x -> x % 2 == 0, toList()));
+        return map.get(map.get(false).size() % 2 != 0);
+
     }
 }
