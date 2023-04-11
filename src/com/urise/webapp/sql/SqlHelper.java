@@ -22,10 +22,10 @@ public class SqlHelper {
         }
     }
 
-    public <T> T connect(String sql, ABlockOfCodeSql<T> blockOfCodeSql) {
+    public <T> T connect(String sql, ABlockOfCodeSql<T> aBlockOfCodeSql) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            return blockOfCodeSql.execute(ps);
+            return aBlockOfCodeSql.execute(ps);
         } catch (SQLException e) {
             throw new StorageException(e);
         }
