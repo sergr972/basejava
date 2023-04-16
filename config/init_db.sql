@@ -22,4 +22,6 @@ create table contact
             on update restrict on delete cascade
 );
 
+-- alter table contact
+--     owner to postgres;
 
