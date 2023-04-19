@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
@@ -19,9 +20,9 @@ public abstract class AbstractStorageTest {
 
     protected final Storage storage;
 
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_1 = "24a36a00-f5b4-4c41-bda7-97278166ef61";
+    private static final String UUID_2 = "66f8a72e-2376-4111-892c-ae22a138dfa6";
+    private static final String UUID_3 = "075cd449-26c1-4005-bb59-47a6890a7ff4";
     private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume R1;
@@ -32,14 +33,14 @@ public abstract class AbstractStorageTest {
     private static final String UUID_NOT_EXIST = "dummy";
 
     static {
-        R1 = new Resume(UUID_1, "Name1");
-        R2 = new Resume(UUID_2, "Name2");
-        R3 = new Resume(UUID_3, "Name3");
-        R4 = new Resume(UUID_4, "Name4");
-//        R1 = ResumeTestData.createResume(UUID_1, "Name1");
-//        R2 = ResumeTestData.createResume(UUID_2, "Name2");
-//        R3 = ResumeTestData.createResume(UUID_3, "Name3");
-//        R4 = ResumeTestData.createResume(UUID_4, "Name4");
+//        R1 = new Resume(UUID_1, "Name1");
+//        R2 = new Resume(UUID_2, "Name2");
+//        R3 = new Resume(UUID_3, "Name3");
+//        R4 = new Resume(UUID_4, "Name4");
+        R1 = ResumeTestData.createResume(UUID_1, "Name1");
+        R2 = ResumeTestData.createResume(UUID_2, "Name2");
+        R3 = ResumeTestData.createResume(UUID_3, "Name3");
+        R4 = ResumeTestData.createResume(UUID_4, "Name4");
     }
 
     protected AbstractStorageTest(Storage storage) {
