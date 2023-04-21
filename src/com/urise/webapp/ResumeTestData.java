@@ -2,13 +2,11 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
-import java.time.Month;
-
 public class ResumeTestData {
 
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        resume.addContact(ContactType.MOBILE_PHONE, "+7(921) 123-4567");
+        resume.addContact(ContactType.PHONE, "+7(921) 123-4567");
         resume.addContact(ContactType.SKYPE, "skype:serg.ivanov");
         resume.addContact(ContactType.MAIL, "s.ivanov@yandex.ru");
         resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/sivanov/");

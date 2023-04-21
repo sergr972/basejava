@@ -44,7 +44,7 @@ public abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R4.addContact(ContactType.MOBILE_PHONE,"44444");
+        R4.addContact(ContactType.PHONE,"44444");
         R4.addContact(ContactType.SKYPE, "Skype");
     }
 
@@ -78,7 +78,7 @@ public abstract class AbstractStorageTest {
         Resume upResume = new Resume(UUID_1, "New Name");
         R1.addContact(ContactType.MAIL,"mail@gmail.com");
         R1.addContact(ContactType.SKYPE, "NewSkype");
-        R1.addContact(ContactType.MOBILE_PHONE, "+7 921 123-45-67");
+        R1.addContact(ContactType.PHONE, "+7 921 123-45-67");
         storage.update(upResume);
         assertEquals(upResume, storage.get(UUID_1));
     }
