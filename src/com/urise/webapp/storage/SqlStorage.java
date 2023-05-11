@@ -1,15 +1,11 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -55,6 +51,7 @@ public class SqlStorage implements Storage {
                 }
             }
             deleteContacts(conn, r);
+            deleteSections(conn, r);
             insertContact(conn, r);
             return null;
         });
@@ -87,22 +84,35 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("" +
-                "   SELECT * FROM resume r " +
-                "LEFT JOIN contact c ON r.uuid = c.resume_uuid " +
-                " ORDER BY full_name, uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
-            Map<String, Resume> map = new LinkedHashMap<>();
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                Resume resume = map.get(uuid);
-                if (resume == null) {
-                    resume = new Resume(uuid, rs.getString("full_name"));
-                    map.put(uuid, resume);
+
+        return sqlHelper.transactionalExecute(conn -> {
+            Map<String, Resume> resumes = new LinkedHashMap<>();
+
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid");
+                 PreparedStatement psContacts = conn.prepareStatement("SELECT * FROM contact");
+                 PreparedStatement psSections = conn.prepareStatement("SELECT * FROM section")) {
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                 }
-                addContact(rs, resume);
+
+                ResultSet rsContacts = psContacts.executeQuery();
+                while (rsContacts.next()) {
+                    resumes.get(rsContacts.getString("resume_uuid"))
+                            .addContact(ContactType.valueOf(rsContacts.getString("type")),
+                                    rsContacts.getString("value"));
+                }
+
+                ResultSet rsSections = psSections.executeQuery();
+                while (rsSections.next()) {
+
+                    addSection(rsSections, resumes.get(rsSections.getString("resume_uuid")));
+                }
+
+                return new ArrayList<>(resumes.values());
             }
-            return new ArrayList<>(map.values());
         });
     }
 
@@ -135,10 +145,29 @@ public class SqlStorage implements Storage {
         });
     }
 
+    private void deleteSections(Connection conn, Resume r) {
+        sqlHelper.execute("DELETE FROM section WHERE resume_uuid=?", ps -> {
+            ps.setString(1, r.getUuid());
+            ps.execute();
+            return null;
+        });
+    }
+
     private void addContact(ResultSet rs, Resume r) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
             r.addContact(ContactType.valueOf(rs.getString("type")), value);
         }
+    }
+
+    private void addSection(ResultSet rs, Resume resume) throws SQLException {
+        SectionType type = SectionType.valueOf(rs.getString("type"));
+        Section section = switch (type) {
+            case PERSONAL, OBJECTIVE -> new StringSection(rs.getString("value"));
+            case ACHIEVEMENT, QUALIFICATIONS -> new ListSection(new ArrayList<>(Arrays.asList(
+                    rs.getString("value").split("\n"))));
+            default -> throw new IllegalStateException("Unknown Section Type");
+        };
+        resume.addSection(type, section);
     }
 }
