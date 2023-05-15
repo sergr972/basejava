@@ -53,6 +53,7 @@ public class SqlStorage implements Storage {
             deleteContacts(conn, r);
             deleteSections(conn, r);
             insertContact(conn, r);
+            insertSection(conn, r);
             return null;
         });
     }
@@ -66,6 +67,7 @@ public class SqlStorage implements Storage {
                         ps.execute();
                     }
                     insertContact(conn, r);
+                    insertSection(conn, r);
                     return null;
                 }
         );
@@ -84,7 +86,6 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-
         return sqlHelper.transactionalExecute(conn -> {
             Map<String, Resume> resumes = new LinkedHashMap<>();
 
@@ -127,14 +128,35 @@ public class SqlStorage implements Storage {
     private void insertContact(Connection conn, Resume r) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("" +
                 "INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
-            for (Map.Entry<ContactType, String> e : r.getContacts().entrySet()) {
+            for (Map.Entry<ContactType, String> entry : r.getContacts().entrySet()) {
                 ps.setString(1, r.getUuid());
-                ps.setString(2, e.getKey().name());
-                ps.setString(3, e.getValue());
+                ps.setString(2, entry.getKey().name());
+                ps.setString(3, entry.getValue());
                 ps.addBatch();
             }
             ps.executeBatch();
         }
+    }
+
+    private void insertSection(Connection conn, Resume r) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("" +
+                "INSERT INTO section (resume_uuid, type, value) VALUES (?,?,?)")) {
+            for (Map.Entry<SectionType, Section> entry : r.getSections().entrySet()) {
+                ps.setString(1, r.getUuid());
+                SectionType sectionType = entry.getKey();
+                ps.setString(2, sectionType.name());
+                Section section = entry.getValue();
+                String value = switch (sectionType) {
+                    case OBJECTIVE, PERSONAL -> ((TextSection) section).getText();
+                    case ACHIEVEMENT, QUALIFICATIONS -> String.join("\n", ((ListSection) section).getItems());
+                    default -> "";
+                };
+                ps.setString(3, value);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+
     }
 
     private void deleteContacts(Connection conn, Resume r) {
