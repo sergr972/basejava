@@ -2,7 +2,36 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
+import java.time.Month;
+import java.util.UUID;
+
 public class ResumeTestData {
+    public static final String UUID_1 = UUID.randomUUID().toString();
+    public static final String UUID_2 = UUID.randomUUID().toString();
+    public static final String UUID_3 = UUID.randomUUID().toString();
+    public static final String UUID_4 = UUID.randomUUID().toString();
+
+    public static final Resume R1;
+    public static final Resume R2;
+    public static final Resume R3;
+    public static final Resume R4;
+
+    public static final String UUID_NOT_EXIST = "dummy";
+
+    static {
+        R1 = ResumeTestData.createResume(UUID_1, "Name1");
+//        R2 = ResumeTestData.createResume(UUID_2, "Name2");
+//        R3 = ResumeTestData.createResume(UUID_3, "Name3");
+//        R4 = ResumeTestData.createResume(UUID_4, "Name4");
+
+//        R1 = new Resume(UUID_1, "Name1");
+        R2 = new Resume(UUID_2, "Name2");
+        R3 = new Resume(UUID_3, "Name3");
+        R4 = new Resume(UUID_4, "Name4");
+
+        R4.addContact(ContactType.PHONE,"44444");
+        R4.addContact(ContactType.SKYPE, "Skype");
+    }
 
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
@@ -20,7 +49,7 @@ public class ResumeTestData {
                 "achievements2", "achievements3"));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection("qualification1",
                 "qualification2", "qualification3"));
-//
+
 //        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(
 //                new Organization("experience1", "http://experience1.ru/",
 //                    new Organization.Period(2013, Month.OCTOBER, "title1", "description1")),
