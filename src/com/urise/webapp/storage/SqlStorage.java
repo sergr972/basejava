@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Util.JsonParser;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
@@ -151,24 +152,16 @@ public class SqlStorage implements Storage {
     }
 
     private void insertSection(Connection conn, Resume r) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("" +
-                "INSERT INTO section (resume_uuid, type, value) VALUES (?,?,?)")) {
-            for (Map.Entry<SectionType, Section> entry : r.getSections().entrySet()) {
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (resume_uuid, type, value) VALUES (?,?,?)")) {
+            for (Map.Entry<SectionType, Section> e : r.getSections().entrySet()) {
                 ps.setString(1, r.getUuid());
-                SectionType sectionType = entry.getKey();
-                ps.setString(2, sectionType.name());
-                Section section = entry.getValue();
-                String value = switch (sectionType) {
-                    case OBJECTIVE, PERSONAL -> ((TextSection) section).getText();
-                    case ACHIEVEMENT, QUALIFICATIONS -> String.join("\n", ((ListSection) section).getItems());
-                    default -> "";
-                };
-                ps.setString(3, value);
+                ps.setString(2, e.getKey().name());
+                Section section = e.getValue();
+                ps.setString(3, JsonParser.write(section, Section.class));
                 ps.addBatch();
             }
             ps.executeBatch();
         }
-
     }
 
     private void deleteContacts(Connection conn, Resume r) throws SQLException {
