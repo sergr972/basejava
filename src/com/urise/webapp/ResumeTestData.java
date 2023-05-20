@@ -2,7 +2,6 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
-import java.time.Month;
 import java.util.UUID;
 
 public class ResumeTestData {
@@ -29,7 +28,9 @@ public class ResumeTestData {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R4.addContact(ContactType.PHONE,"44444");
+        R2.addContact(ContactType.MAIL, "mail2@gmail.ru");
+        R3.addContact(ContactType.MAIL, "mail3@ya.ru");
+        R4.addContact(ContactType.PHONE, "44444");
         R4.addContact(ContactType.SKYPE, "Skype");
     }
 
@@ -71,11 +72,11 @@ public class ResumeTestData {
         return resume;
     }
 
-    public static void main(String[] args) {
-
-        Resume testResume = createResume("uuid1", "Серж Иванов");
-        System.out.println(testResume);
-        System.out.println(testResume.getContacts());
-        System.out.println(testResume.getSections());
-    }
+//    public static void main(String[] args) {
+//
+//        Resume testResume = createResume("uuid1", "Серж Иванов");
+//        System.out.println(testResume);
+//        System.out.println(testResume.getContacts());
+//        System.out.println(testResume.getSections());
+//    }
 }
