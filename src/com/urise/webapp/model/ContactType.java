@@ -11,7 +11,7 @@ public enum ContactType {
     MAIL("Почта") {
         @Override
         public String toHtml0(String value) {
-            return getTitle() + ": " + toLink("skype:" + value, value);
+            return getTitle() + ": " + toLink("Почта:" + value, value);
         }
     },
     LINKEDIN("Профиль LinkedIn") {

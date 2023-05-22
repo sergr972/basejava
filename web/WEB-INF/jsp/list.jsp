@@ -8,9 +8,10 @@
     <title>Список всех резюме</title>
 </head>
 <body>
+<br><br>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table border="1" cellpadding="8" cellspacing="0" align="center">
         <tr>
             <th>Имя</th>
             <th>Email</th>
@@ -28,6 +29,7 @@
             </tr>
         </c:forEach>
     </table>
+    <p align="center"><a href="resume?action=add"><img src="img/add.png"></a></p>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
