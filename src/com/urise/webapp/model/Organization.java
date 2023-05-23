@@ -20,11 +20,13 @@ import static com.urise.webapp.Util.DateUtil.of;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", Period.EMPTY);
+
     private String webSite;
     private String name;
     private List<Period> periods = new ArrayList<>();
 
-    public Organization() {
+    public Organization(Period period) {
     }
 
     public Organization(String name, String webSite, Period... periods) {
@@ -75,6 +77,8 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
+        public static final Period EMPTY = new Period();
+
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
