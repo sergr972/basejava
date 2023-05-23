@@ -1,6 +1,5 @@
 package com.urise.webapp.Util;
 
-
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -22,7 +21,6 @@ public class JsonSectionAdapter<T> implements JsonSerializer<T>, JsonDeserialize
             throw new JsonParseException(e.getMessage());
         }
     }
-
 
     @Override
     public JsonElement serialize(T section, Type type, JsonSerializationContext context) {

@@ -26,7 +26,7 @@ create table section
     id          serial   not null primary key,
     resume_uuid CHAR(36) not null references resume on delete cascade,
     type        text     not null,
-    value       text     not null
+    content       text     not null
 );
 create unique index section_resume_uuid_id_rindex on section (resume_uuid, type);
 alter table section owner to postgres;
