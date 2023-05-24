@@ -19,15 +19,10 @@ import static com.urise.webapp.Util.DateUtil.of;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-
     public static final Organization EMPTY = new Organization("", "", Period.EMPTY);
-
-    private String webSite;
-    private String name;
-    private List<Period> periods = new ArrayList<>();
-
-    public Organization(Period period) {
-    }
+    protected List<Period> periods = new ArrayList<>();
+    private final String webSite;
+    private final String name;
 
     public Organization(String name, String webSite, Period... periods) {
         this(name, webSite, Arrays.asList(periods));

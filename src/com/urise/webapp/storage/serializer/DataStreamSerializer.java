@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class DataStreamSerializer implements StreamSerializer {
-
     String str;
 
     @Override
@@ -53,22 +52,16 @@ public class DataStreamSerializer implements StreamSerializer {
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
             Resume resume = new Resume(dis.readUTF(), dis.readUTF());
-            readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readWithException(dis, () -> resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
 
             readWithException(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
-                    case OBJECTIVE, PERSONAL ->
-                            resume.addSection(sectionType, new TextSection(dis.readUTF()));
+                    case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(dis.readUTF()));
                     case ACHIEVEMENT, QUALIFICATIONS ->
-                            resume.addSection(sectionType, new ListSection(readListWithException(dis, dis::readUTF)));
+                            resume.setSection(sectionType, new ListSection(readListWithException(dis, dis::readUTF)));
                     case EDUCATION, EXPERIENCE ->
-                            resume.addSection(sectionType, new OrganizationSection(
-                                    readListWithException(dis, () -> new Organization(
-                                            dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str
-                                            , readListWithException(dis, () -> new Organization.Period(
-                                            getParse(dis), getParse(dis), dis.readUTF()
-                                            , (str = dis.readUTF()).equals("null") ? null : str))))));
+                            resume.setSection(sectionType, new OrganizationSection(readListWithException(dis, () -> new Organization(dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str, readListWithException(dis, () -> new Organization.Period(getParse(dis), getParse(dis), dis.readUTF(), (str = dis.readUTF()).equals("null") ? null : str))))));
                 }
             });
             return resume;
