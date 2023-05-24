@@ -61,7 +61,7 @@
             <td colspan="2">
                 <c:choose>
                     <c:when test="${empty org.webSite}">
-                        <h3>${org.webSite}</h3>
+                        <h3>${org.name}</h3>
                     </c:when>
                     <c:otherwise>
                         <h3><a href="${org.webSite}">${org.webSite}</a></h3>
