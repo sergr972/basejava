@@ -14,8 +14,13 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h2>
+    <h1>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png" alt=""></a></h1>
     <p>
+        <c:forEach var="contactEntry" items="${resume.contacts}">
+            <jsp:useBean id="contactEntry"
+                         type="java.util.Map.Entry<com.urise.webapp.model.ContactType, java.lang.String>"/>
+                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+        </c:forEach>
     <p>
     <hr>
     <table cellpadding="2">
@@ -81,6 +86,9 @@
         </c:when>
         </c:choose>
         </c:forEach>
+    </table>
+    <br/>
+    <button onclick="window.history.back()">ОК</button>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
