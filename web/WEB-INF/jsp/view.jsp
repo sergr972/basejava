@@ -49,17 +49,17 @@
             </td>
         </tr>
         </c:when>
-        <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
-        <tr>
-            <td colspan="2">
-                <ul>
-                    <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
-                        <li>${item}</li>
-                    </c:forEach>
-                </ul>
-            </td>
-        </tr>
-        </c:when>
+            <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
+                <tr>
+                    <td colspan="2">
+                        <ul>
+                            <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                                <li>${item}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                </tr>
+            </c:when>
         <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
         <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
         <tr>
@@ -76,11 +76,11 @@
         </tr>
         <c:forEach var="period" items="${org.periods}">
             <jsp:useBean id="period" type="com.urise.webapp.model.Organization.Period"/>
-        <tr>
-            <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(period)%>
-            </td>
-            <td><b>${period.title}</b><br>${period.description}</td>
-        </tr>
+                <tr>
+                    <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(period)%>
+                    </td>
+                    <td><b>${period.title}</b><br>${period.description}</td>
+                </tr>
         </c:forEach>
         </c:forEach>
         </c:when>

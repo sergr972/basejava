@@ -57,30 +57,30 @@
                         </dl>
                         <br>
                         <div style="margin-left: 30px">
-                            <c:forEach var="pos" items="${org.periods}">
-                                <jsp:useBean id="pos" type="com.urise.webapp.model.Organization.Period"/>
+                            <c:forEach var="period" items="${org.periods}">
+                                <jsp:useBean id="period" type="com.urise.webapp.model.Organization.Period"/>
                                 <dl>
                                     <dt>Начальная дата:</dt>
                                     <dd>
                                         <input type="text" name="${type}${counter.index}startDate" size=10
-                                               value="<%=DateUtil.format(pos.getStartDate())%>" placeholder="MM/yyyy">
+                                               value="<%=DateUtil.format(period.getStartDate())%>" placeholder="MM/yyyy">
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>Конечная дата:</dt>
                                     <dd>
                                         <input type="text" name="${type}${counter.index}endDate" size=10
-                                               value="<%=DateUtil.format(pos.getEndDate())%>" placeholder="MM/yyyy">
+                                               value="<%=DateUtil.format(period.getEndDate())%>" placeholder="MM/yyyy">
                                 </dl>
                                 <dl>
                                     <dt>Должность:</dt>
                                     <dd><input type="text" name='${type}${counter.index}title' size=75
-                                               value="${pos.title}">
+                                               value="${period.title}">
                                 </dl>
                                 <dl>
                                     <dt>Описание:</dt>
                                     <dd><textarea name="${type}${counter.index}description" rows=5
-                                                  cols=75>${pos.description}</textarea></dd>
+                                                  cols=75>${period.description}</textarea></dd>
                                 </dl>
                             </c:forEach>
                         </div>
