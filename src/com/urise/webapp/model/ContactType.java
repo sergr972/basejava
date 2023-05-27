@@ -1,7 +1,7 @@
 package com.urise.webapp.model;
 
 public enum ContactType {
-    PHONE("моб. телефон"),
+    PHONE("Телефон"),
     SKYPE("Skype") {
         @Override
         public String toHtml0(String value) {
@@ -11,7 +11,11 @@ public enum ContactType {
     MAIL("Почта") {
         @Override
         public String toHtml0(String value) {
-            return getTitle() + ": " + toLink("Почта:" + value, value);
+            return getTitle() + ": " + toLink(value);
+        }
+
+        public String toLink(String value) {
+            return (value == null) ? "" : toLink("mailto:" + value, value);
         }
     },
     LINKEDIN("Профиль LinkedIn") {
